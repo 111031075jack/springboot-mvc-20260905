@@ -60,5 +60,43 @@ public class ApiController {
 		return result; 
 	}
 	
+	/** 
+	 * 4. Lab 練習 I
+	 * 路徑: /bmi?h=170&w=60
+	 * 網址: http://localhost:8080/api/bmi?h=170&w=60
+	 * 判斷: bmi <= 18 顯示過輕, bmi > 23 顯示過重
+	 * 執行結果: 身高:170cm 體重:60kg bmi=20.76(正常)
+	*/
+	@GetMapping("/bmi")
+	public String bmi(@RequestParam Double h, @RequestParam Double w) {
+		
+		// 老師寫法
+		Double bmi = w / Math.pow(h/100, 2);
+		String diagnosis = (bmi <= 18) ? "過輕" : (bmi > 23) ? "過重" : "正常";
+		String result = "身高: %.1fcm 體重:%.2fkg BMI:%.2f (%s)".formatted(h, w, bmi, diagnosis);
+		return result;
+	}	
+		
+}		
+
+// 我的寫法
+//		Double bmi = w/(h/100*h/100);
+//		
+//		String result = " ";
+//		if(bmi <= 18) {
+//			 result = "過輕";
+//		} else if (bmi > 23) {
+//			 result = "過重";
+//		} else {
+//			 result = "正常";
+//		}
+//		
+//		String output = "身高: %s 體重: %s bmi:%.2f 判斷:%s".formatted(h, w, bmi, result);
+//			
+//		return output;
+//		
+//	}
 	
-}
+	
+	
+
