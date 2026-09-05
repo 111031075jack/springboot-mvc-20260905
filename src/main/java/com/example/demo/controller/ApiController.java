@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -77,7 +79,7 @@ public class ApiController {
 		return result;
 	}	
 		
-}		
+		
 
 // 我的寫法
 //		Double bmi = w/(h/100*h/100);
@@ -98,5 +100,44 @@ public class ApiController {
 //	}
 	
 	
+	/**
+	 * 5. 同名多筆資料
+	 * 路徑: /average/ages?age=17&age=21&age=20
+	 * 
+	 * */
+	@GetMapping("/average/ages")
+	public String averageOfAge(@RequestParam(name = "age") List<Integer> ages) {
+		
+		double avg = ages.stream()
+					//.mapToInt(Integer::valueOf)
+					.mapToInt(age -> Integer.valueOf(age))
+					.average()
+					.orElse(0);
+		
+		String result = "年齡:%s 平均: %.1f".formatted(ages, avg);
+		return result;
+	}
+
+	/**
+	 * 6. Lab 練習: 得到多筆 score 資料
+	 * 路徑: "/average/scores?score=80&score=100&score=50&score=70&score=30"
+	 * 印出分數與平均, 總分
+	 * */
+	@GetMapping("/average/scores")
+	public String averageOfScore(@RequestParam(name = "score") List<Integer> scores) {
+		
+		double avg = scores.stream()
+							.mapToInt(Integer::valueOf)
+							.average()
+							.orElse(0);
+		int sum = scores.stream().mapToInt(Integer::valueOf).sum();
+		
+		
+		String result = "分數:%s 平均: %.1f 總分: %d".formatted(scores, avg, sum);
+		return result;
+	}
+	
+	
 	
 
+}
