@@ -121,7 +121,7 @@ public class ApiController {
 	/**
 	 * 6. Lab 練習: 得到多筆 score 資料
 	 * 路徑: "/average/scores?score=80&score=100&score=50&score=70&score=30"
-	 * 印出分數與平均, 總分
+	 * 印出分數與平均, 總分, 最高分, 最低分
 	 * */
 	@GetMapping("/average/scores")
 	public String averageOfScore(@RequestParam(name = "score") List<Integer> scores) {
@@ -131,9 +131,10 @@ public class ApiController {
 							.average()
 							.orElse(0);
 		int sum = scores.stream().mapToInt(Integer::valueOf).sum();
+		int max = scores.stream().mapToInt(Integer::valueOf).max().orElse(0);
+		int min = scores.stream().mapToInt(Integer::valueOf).min().orElse(0);
 		
-		
-		String result = "分數:%s 平均: %.1f 總分: %d".formatted(scores, avg, sum);
+		String result = "分數:%s 平均: %.1f 總分: %d 最高分: %d 最低分: %d".formatted(scores, avg, sum, max, min);
 		return result;
 	}
 	
